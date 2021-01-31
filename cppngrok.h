@@ -1,4 +1,4 @@
- // AUTHOR : demon-i38 // LICENSE :
+ // AUTHOR : 70corre20matar // LICENSE :
  // VERSION : 0.0.1
 
 #pragma once
@@ -9,8 +9,8 @@ using namespace std;
 
 class Setup{
 	public:
-		Setup(bool log_opt = false, bool download_opt = true);
-		int logger(bool log_handler = false, int log_level = 0, std::string message = "NONE");
+		Setup(bool log_opt, bool download_opt);
+		int logger(bool log_handler, int log_level, std::string message);
 };
 
 #endif
