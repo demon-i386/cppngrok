@@ -4,6 +4,7 @@
 #pragma once
 #ifndef CPPNGROK_H
 #define CPPNGROK_H
+#endif
 #include <string>
 using namespace std;
 
@@ -15,5 +16,5 @@ class Setup{
 		int  bind(int mode,int port);
 };
 
-#endif
+
 
