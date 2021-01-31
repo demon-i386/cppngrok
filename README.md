@@ -14,7 +14,11 @@ void main(){
 
 }
 ```
+### requeriments
 
+```
+https://ngrok.com/
+```
 
 ### simple static build
 
