@@ -15,9 +15,10 @@ using namespace std;
 int STARTUP_TIMEOUT = 15;
 bool log_handler;
 
-int Setup::logger(bool log_handler, int log_level, std::string message){
-	if(log_handler == false){
-		return 0;
+int Setup::logger(int log_level, std::string message){
+	if(log_level == NULL){
+		log_handler = false;
+		return NULL;
 	}
 	switch (log_level){
 		case 1:
