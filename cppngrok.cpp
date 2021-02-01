@@ -83,7 +83,7 @@ address_handler* CppngrokHandler::bind(){ // return type = struct address_handle
 	char buf[500];
 	while ( fgets(buf, 500,proc_handler) != "https"){
     		string regcheck = convertToString(buf, sizeof(buf));	
-		struct address_handler &addrr_handler = CppngrokHandler::UrlBuilder(regcheck); // this will get return of UrlBuilder "address_handler" and alocate into addr_handler
+		address_handler *addrr_handler = CppngrokHandler::UrlBuilder(regcheck); // this will get return of UrlBuilder "address_handler" and alocate into addr_handler
 		return addrr_handler; // return addr_handler struct to user
 	};
 }
