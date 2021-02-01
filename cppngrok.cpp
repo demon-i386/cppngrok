@@ -56,8 +56,7 @@ address_handler* CppngrokHandler::bind() { // return type = struct address_handl
 	CppngrokHandler::logger(run, 1, log_handler);
 	FILE *pPipe = _popen(run.c_str, "r");
 	char buf[512];
-	unsigned int i = 0;
-	for (i; i < 512; i++) {
+	for (unsigned int i = 0;; i < 512; i++) {
 		fgets(buf, 512, pPipe);
 		if (i == 4) {
 			if (!_strcmpi(buf, "http")) {
@@ -65,7 +64,6 @@ address_handler* CppngrokHandler::bind() { // return type = struct address_handl
 			}
 		}
 	}
-	
 	address_handler *pAddr = CppngrokHandler::UrlBuilder(buf);
 	_pclose(pPipe);
 	return pAddr;
