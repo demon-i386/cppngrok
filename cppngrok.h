@@ -1,5 +1,5 @@
- // AUTHOR : demon-i38 
-// LICENSE :
+ // AUTHOR : demon-i38 / KB1te
+ // LICENSE : GPL 3.0
  // VERSION : 0.0.1
 
 #pragma once
