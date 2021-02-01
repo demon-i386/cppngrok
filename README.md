@@ -6,7 +6,7 @@ a cpp wrapper for ngrok
 #include <cppngrok.h> // or "cppngrok.h" if locally
 
 void main(){
-  Setup cppn_handler;
+  CppngrokHandler cppn_handler;
   cppn_handler.bind() // http tunnel on default port (8080)
   cppn_handler.bind("tcp", 1337) // tcp tunnel in port 1337
   
