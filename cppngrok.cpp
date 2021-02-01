@@ -74,7 +74,8 @@ address_handler* CppngrokHandler::bind(){ // return type = struct address_handle
 	pid_t ngrok_pid;
 	cout << NGROK_BINARY_PATH << endl;
 	std::string command = " http 80 --log stdout";
-	std::string run = NGROK_BINARY_PATH + command;
+	std::string run = NGROK_BINARY_PATH;
+	run.append(command);
 
 	FILE *proc_handler = popen(run.c_str(),"r");
 	if(!proc_handler){
