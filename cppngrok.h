@@ -1,14 +1,24 @@
  // AUTHOR : demon-i38 / KB1te
  // LICENSE : GPL 3.0
- // VERSION : 0.0.1
+ // VERSION : 0.1.0
 
 #pragma once
-#ifndef CPPNGROK_H
-#define CPPNGROK_H
-#include <string>
+
+#include <iostream>
+#include <stdio.h>
+#include <algorithm>
+#include <cstring>
+#include <locale>
 #include <regex>
+
 using namespace std;
 
+enum methods {
+	ngroktcp = 1,
+	ngroktls = 2,
+	ngrokhttp = 3,
+	ngrokhttps = 4,
+};
 
 struct address_handler{
           string ext_http;
@@ -20,16 +30,13 @@ struct address_handler{
  };
 
 class CppngrokHandler{
-	string NGROK_BINARY_PATH;
 	public:
 		CppngrokHandler(bool log_opt);
 		int logger(std::string message, int log_level, bool log_handler);
 		address_handler* bind();
-		int bind(int port, std::string method);
-		std::string convertToString(const char*);
+		int bind(int port, methods ngrokmethod);
 	private:
 		address_handler* UrlBuilder(std::string regcheck);
 };
 
-#endif
 
