@@ -17,7 +17,7 @@
 #include <locale>
 #include <regex>
 /*
-* AUTHOR : demon-i386
+* AUTHOR : demon-i386 / KB1te
 * LICENSE : GPL v3.0
 * VERSION : 0.0.1
 */
