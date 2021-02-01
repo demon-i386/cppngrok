@@ -1,20 +1,35 @@
- // AUTHOR : 70corre20matar // LICENSE :
+ // AUTHOR : demon-i38 
+// LICENSE :
  // VERSION : 0.0.1
 
 #pragma once
 #ifndef CPPNGROK_H
 #define CPPNGROK_H
-#endif
 #include <string>
+#include <regex>
 using namespace std;
 
-class Setup{
+
+struct address_handler{
+          string ext_http;
+          string ext_https;
+          string ext_tcp;
+          string ext_tls;
+          string ext_tcp_port;
+          string ext_tls_port;
+ };
+
+class CppngrokHandler{
+	string NGROK_BINARY_PATH;
 	public:
-		Setup(bool log_opt, bool download_opt);
-		int logger(bool log_handler, int log_level, std::string message);
-		void bind();
-		int  bind(int mode,int port);
+		CppngrokHandler(bool log_opt);
+		int logger(std::string message, int log_level, bool log_handler);
+		address_handler* bind();
+		int bind(int port, std::string method);
+		std::string convertToString(char* a, int size);
+	private:
+		address_handler* UrlBuilder(std::string regcheck);
 };
 
-
+#endif
 
