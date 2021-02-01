@@ -118,24 +118,27 @@ int CppngrokHandler::logger(std::string message, int log_level, bool log_handler
 }
 
 
+
+
 CppngrokHandler::CppngrokHandler(bool log_opt) {
 	log_handler = log_opt;
 	FILE *file = NULL;
-	char *buff[] = { std::getenv("HOME") };
-	strncat(*buff, "/.local/bin/ngrok", 17);
-	path = *buff;
-	if (!fopen(*buff, "rb")) {
+	char *buff = { std::getenv("HOME") };
+	strncat(buff, "/.local/bin/ngrok", 17);
+	path = buff;
+	if (!fopen(buff, "rb")) {
 		fclose(file);
 	}
 	else {
 		if (std::getenv("NGROK_PATH")) {
-			*buff = std::getenv("NGROK_PATH");
+			buff = std::getenv("NGROK_PATH");
 		}
 		else {
 			CppngrokHandler::logger("PLEASE SET NGROK PATH TO ENV 'NGROK_PATH' AND TRY AGAIN", 3, log_handler);
 		}
 	}
 }
+
 
 int main() {
 	CppngrokHandler *handler = new CppngrokHandler(true);
