@@ -26,7 +26,7 @@ class CppngrokHandler{
 		int logger(std::string message, int log_level, bool log_handler);
 		address_handler* bind();
 		int bind(int port, std::string method);
-		std::string convertToString(char* a, int size);
+		std::string convertToString(const char*);
 	private:
 		address_handler* UrlBuilder(std::string regcheck);
 };
