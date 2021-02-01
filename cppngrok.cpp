@@ -27,8 +27,6 @@ using namespace std;
 int STARTUP_TIMEOUT = 15;
 bool log_handler;
 
-// tá errado? oq eu faço ent como declaro krl
-
 
 string CppngrokHandler::convertToString(char* a, int size) 
 { 
@@ -40,9 +38,8 @@ string CppngrokHandler::convertToString(char* a, int size)
     return s; 
 } 
 
-// e esse auto aqui?
-//
-address_handler* CppngrokHandler::UrlBuilder(std::string regcheck){
+//  return type = struct address_handler declared in cppngrok.h
+address_handler* CppngrokHandler::UrlBuilder(std::string regcheck){ // address_handler alocator, this will alocate address_handler structure with data and return address_handler
 	cout << "UrlBuilder" << endl << endl;
 	std::regex httpsrgx("https://[a-zA-Z0-9.]+[^a-zA-Z/:localhost]");
 	std::regex httprgx("http://[a-zA-Z0-9.]+[^a-zA-Z/:localhost]");  
@@ -70,10 +67,10 @@ address_handler* CppngrokHandler::UrlBuilder(std::string regcheck){
 		addr_handler->ext_tls = match[0];
 
 	cout << addr_handler << endl;
-	return addr_handler;
+	return addr_handler; // return addr handler to CppngrokHandler::bind()
 }
 
-address_handler* CppngrokHandler::bind(){
+address_handler* CppngrokHandler::bind(){ // return type = struct address_handler declared in cppngrok.h
 	pid_t ngrok_pid;
 	cout << NGROK_BINARY_PATH << endl;
 	std::string command = " http 80 --log stdout";
@@ -88,8 +85,8 @@ address_handler* CppngrokHandler::bind(){
 	char buf[500];
 	while ( fgets(buf, 500,proc_handler) != "https"){
     		string regcheck = convertToString(buf, sizeof(buf));	
-		struct address_handler &addrr_handler = CppngrokHandler::UrlBuilder(regcheck);
-		return addrr_handler;
+		struct address_handler &addrr_handler = CppngrokHandler::UrlBuilder(regcheck); // this will get return of UrlBuilder "address_handler" and alocate into addr_handler
+		return addrr_handler; // return addr_handler struct to user
 	};
 }
 
