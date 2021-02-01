@@ -28,13 +28,10 @@ int STARTUP_TIMEOUT = 15;
 bool log_handler;
 
 
-string CppngrokHandler::convertToString(char* a, int size) 
+string CppngrokHandler::convertToString(const char* a) 
 { 
-    int i; 
     string s = ""; 
-    for (i = 0; i < size; i++) { 
-        s = s + a[i]; 
-    } 
+    s.append(a);
     return s; 
 } 
 
