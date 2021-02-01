@@ -2,9 +2,11 @@
 a cpp wrapper for ngrok
 
 
-<br/>
+<br />
+
 ##### not implemented yet, read the code!
 ### basic usage
+
 ```cpp
 #include <cppngrok.h> // or "cppngrok.h" if locally
 
@@ -17,6 +19,7 @@ void main(){
 
 }
 ```
+
 ### requeriments
 
 ```
