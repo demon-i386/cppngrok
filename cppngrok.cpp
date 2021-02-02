@@ -8,65 +8,77 @@
 */
 
 using namespace std;
-
 bool log_handler;
-
 const char* path;
+
+
+
 //  return type = struct address_handler declared in cppngrok.h
-address_handler* CppngrokHandler::UrlBuilder(std::string regcheck) { // address_handler alocator, this will alocate address_handler structure with data and return address_handler
-	cout << "UrlBuilder" << endl << endl;
-	std::regex httpsrgx("https://[a-zA-Z0-9.]+[^a-zA-Z/:localhost]");
-	std::regex httprgx("http://[a-zA-Z0-9.]+[^a-zA-Z/:localhost]");
-	std::regex tcprgx("tcp://[a-zA-Z0-9.]+[^a-zA-Z/:localhost]");
-	std::regex tlsrgx("tls://[a-zA-Z0-9.]+[^a-zA-Z/:localhost]");
+address_handler CppngrokHandler::UrlBuilder(std::string regcheck) { // address_handler alocator, this will alocate address_handler structure with data and return address_handler
+	std::regex httpsrgx("http://[a-zA-Z0-9.ngrok.io]+[^a-zA-Z/:localhost]io");
+	std::regex httprgx("https://[a-zA-Z0-9.ngrok.io]+[^a-zA-Z/:localhost]io");
+	std::regex tcprgx("(tcp://)[a-zA-Z0-9.]+[^a-zA-Z/:localhost]io");
+	std::regex tlsrgx("(tls://)[a-zA-Z0-9.]+[^a-zA-Z/:localhost]io");
 	std::smatch match;
-	address_handler *addr_handler = NULL;
-	cout << regcheck;
-
-	if (std::regex_match(regcheck, match, httpsrgx)) {
-		cout << "MATCHED :: " << match[0] << endl;
-		addr_handler->ext_https = match[0];
-		cout << "HTTPS :: " << addr_handler->ext_https;
+	address_handler addr_handler;
+	if (std::regex_search(regcheck, match, httpsrgx)) {
+		addr_handler.ext_https = match[0];
+		cout << "MATCH :: " << match[0] << endl;
+		cout << "GOTCHA :: " << addr_handler.ext_https << endl;
 	}
-		
 
-	if (std::regex_match(regcheck, match, httprgx)) {
-		cout << "MATCHED :: " << match[0] << endl;
-		addr_handler->ext_http = match[0];
-		cout << "HTTP :: " << addr_handler->ext_http;
-	}
-		
+	if (std::regex_search(regcheck, match, httprgx)) {
+		addr_handler.ext_http = match[0];
+		cout << "MATCH :: " << match[0] << endl;
+		cout << "GOTCHA :: " << addr_handler.ext_http << endl;  
+	} 
 
-	if (std::regex_match(regcheck, match, tcprgx)) {
-		cout << "MATCHED :: " << match[0] << endl;
-		addr_handler->ext_tcp = match[0];
-	}
-		
+	if (std::regex_search(regcheck, match, tcprgx)) {
+		addr_handler.ext_tcp = match[0];
+	} 
 
 	if (std::regex_match(regcheck, match, tlsrgx)) {
-		cout << "MATCHED :: " << match[0] << endl;
-		addr_handler->ext_tls = match[0];
-	}
-	cout << addr_handler << endl;
+		addr_handler.ext_tls = match[0];
+	} 
 	return addr_handler;
 }
 
-address_handler* CppngrokHandler::bind() { // return type = struct address_handler declared in cppngrok.h
+address_handler CppngrokHandler::bind() { // return type = struct address_handler declared in cppngrok.h
+	char *buff;
+	buff = (char *) path;
+	std::string response = "";
+	strncat(buff," http 80 --log stdout", 21);
 
-	FILE *pPipe = _popen(path, "r");
+
+	redi::ipstream is(buff);
+
+	cout << "BUFF WITH ARGS :: " << buff << endl;
+	// FILE *pPipe = popen(buff, "r");
+	// if(pPipe == NULL){
+	//	cout << "[!] PIPE ERROR" << endl;
+	//}
+
 	char buf[512];
+	memset(buf, 0, sizeof(buf));
 	unsigned int i = 0;
-	for (i; i < 512; i++) {
-		fgets(buf, 512, pPipe);
-		if (i == 4) {
-			if (!_strcmpi(buf, "http")) {
-				return NULL;
-			}
-		}
+	struct address_handler pAddr;
+
+	//for(i; i<512;i++){
+	//	if(fgets(buf, sizeof(buf), pPipe) != NULL){
+	//		size_t len = strlen(buf);
+	//		if (len > 0 && buf[len-1] == '\n') {
+	//			buf[--len] = '\0';
+	//		}
+	//	}
+	std::string outBuff;
+	for(i; i<7; i++){
+		std::getline(is, outBuff);
+		cout << "[ " << i << " ] " << outBuff << endl;
+		address_handler pAddr;;
+		pAddr = CppngrokHandler::UrlBuilder(outBuff);
 	}
-	
-	address_handler *pAddr = CppngrokHandler::UrlBuilder(buf);
-	_pclose(pPipe);
+	is.close();
+	cout << pAddr.ext_http;
 	return pAddr;
 }
 
@@ -122,11 +134,12 @@ int CppngrokHandler::logger(std::string message, int log_level, bool log_handler
 
 CppngrokHandler::CppngrokHandler(bool log_opt) {
 	log_handler = log_opt;
-	FILE *file = NULL;
 	char *buff = { std::getenv("HOME") };
 	strncat(buff, "/.local/bin/ngrok", 17);
 	path = buff;
-	if (!fopen(buff, "rb")) {
+	cout << "NGROK PATH :: " << path << endl;;
+	cout << "BUFFER :: " << buff << endl;
+	if (FILE *file = fopen(buff, "rb")) {
 		fclose(file);
 	}
 	else {
@@ -140,7 +153,3 @@ CppngrokHandler::CppngrokHandler(bool log_opt) {
 }
 
 
-int main() {
-	CppngrokHandler *handler = new CppngrokHandler(true);
-	handler->bind();
-}

@@ -10,6 +10,7 @@
 #include <cstring>
 #include <locale>
 #include <regex>
+#include "pstream.h"
 
 using namespace std;
 
@@ -27,16 +28,17 @@ struct address_handler{
           string ext_tls;
           string ext_tcp_port;
           string ext_tls_port;
+          bool stop_trigger = false;
  };
+
+
 
 class CppngrokHandler{
 	public:
 		CppngrokHandler(bool log_opt);
 		int logger(std::string message, int log_level, bool log_handler);
-		address_handler* bind();
-		int bind(int port, methods ngrokmethod);
-	private:
-		address_handler* UrlBuilder(std::string regcheck);
+		address_handler bind();
+		address_handler UrlBuilder(std::string regcheck);
+		int bind(int port, methods ngrokmethods);
 };
-
 
