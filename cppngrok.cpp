@@ -15,10 +15,10 @@ const char* path;
 
 //  return type = struct address_handler declared in cppngrok.h
 address_handler CppngrokHandler::UrlBuilder(std::string regcheck) { // address_handler alocator, this will alocate address_handler structure with data and return address_handler
-	std::regex httpsrgx("http://[a-zA-Z0-9.ngrok.io]+[^a-zA-Z/:localhost]io");
-	std::regex httprgx("https://[a-zA-Z0-9.ngrok.io]+[^a-zA-Z/:localhost]io");
-	std::regex tcprgx("(tcp://)[a-zA-Z0-9.]+[^a-zA-Z/:localhost]io");
-	std::regex tlsrgx("(tls://)[a-zA-Z0-9.]+[^a-zA-Z/:localhost]io");
+	std::regex httpsrgx("https://[a-zA-Z0-9.ngrok.io]+[^a-zA-Z/:localhost]io");
+	std::regex httprgx("http://[a-zA-Z0-9.ngrok.io]+[^a-zA-Z/:localhost]io");
+	std::regex tcprgx("tcp://[a-zA-Z0-9.]+[^a-zA-Z/:localhost]io");
+	std::regex tlsrgx("tls://[a-zA-Z0-9.]+[^a-zA-Z/:localhost]io");
 	std::smatch match;
 	address_handler addr_handler;
 	if (std::regex_search(regcheck, match, httpsrgx)) {
@@ -71,14 +71,23 @@ address_handler CppngrokHandler::bind() { // return type = struct address_handle
 	//		}
 	//	}
 	std::string outBuff;
-	for(i; i<7; i++){
-		std::getline(is, outBuff);
+	while(std::getline(is, outBuff)){
 		cout << "[ " << i << " ] " << outBuff << endl;
-		address_handler pAddr;;
 		pAddr = CppngrokHandler::UrlBuilder(outBuff);
+		if(pAddr.ext_https != ""){
+			cout << "HTTPS RETURN :: " << pAddr.ext_https << endl;
+		}
+		if(pAddr.ext_http != ""){
+			cout << "HTTP RETURN :: " << pAddr.ext_http << endl;  
+		}
+		if(pAddr.ext_http != "" || pAddr.ext_https != ""){
+			cout << "OK TO GO....." << endl << endl;
+			cout << "TRYING TO RETURN :: " << pAddr.ext_http << endl;   
+			break;
+		}
+		
 	}
-	is.close();
-	cout << pAddr.ext_http;
+	cout << "EXITED LOOP :: " << pAddr.ext_http;
 	return pAddr;
 }
 
