@@ -15,29 +15,25 @@ const char* path;
 
 //  return type = struct address_handler declared in cppngrok.h
 address_handler CppngrokHandler::UrlBuilder(std::string regcheck) { // address_handler alocator, this will alocate address_handler structure with data and return address_handler
-	std::regex httpsrgx("https://[a-zA-Z0-9.ngrok.io]+[^a-zA-Z/:localhost]io");
-	std::regex httprgx("http://[a-zA-Z0-9.ngrok.io]+[^a-zA-Z/:localhost]io");
-	std::regex tcprgx("tcp://[a-zA-Z0-9.]+[^a-zA-Z/:localhost]io");
-	std::regex tlsrgx("tls://[a-zA-Z0-9.]+[^a-zA-Z/:localhost]io");
-	std::smatch match;
 	address_handler addr_handler;
-	if (std::regex_search(regcheck, match, httpsrgx)) {
+	std::regex https_rgx("https://[a-zA-Z0-9.ngrok.io]+");
+	std::regex http_rgx("http://[a-zA-Z0-9.ngrok.io]+[^a-zA-Z/:localhost]io");
+	std::regex tcp_rgx("tcp://[a-zA-Z0-9.]+[^a-zA-Z/:localhost]io");
+	std::regex tls_rgx("tls://[a-zA-Z0-9.]+[^a-zA-Z/:localhost]io");
+	std::smatch match;
+	if (std::regex_search(regcheck, match, https_rgx)) {
 		addr_handler.ext_https = match[0];
-		cout << "MATCH :: " << match[0] << endl;
-		cout << "GOTCHA :: " << addr_handler.ext_https << endl;
 	}
 
-	if (std::regex_search(regcheck, match, httprgx)) {
+	if (std::regex_search(regcheck, match, http_rgx)) {
 		addr_handler.ext_http = match[0];
-		cout << "MATCH :: " << match[0] << endl;
-		cout << "GOTCHA :: " << addr_handler.ext_http << endl;  
 	} 
 
-	if (std::regex_search(regcheck, match, tcprgx)) {
+	if (std::regex_search(regcheck, match, tcp_rgx)) {
 		addr_handler.ext_tcp = match[0];
 	} 
 
-	if (std::regex_match(regcheck, match, tlsrgx)) {
+	if (std::regex_match(regcheck, match, tls_rgx)) {
 		addr_handler.ext_tls = match[0];
 	} 
 	return addr_handler;
@@ -46,48 +42,19 @@ address_handler CppngrokHandler::UrlBuilder(std::string regcheck) { // address_h
 address_handler CppngrokHandler::bind() { // return type = struct address_handler declared in cppngrok.h
 	char *buff;
 	buff = (char *) path;
-	std::string response = "";
 	strncat(buff," http 80 --log stdout", 21);
-
-
 	redi::ipstream is(buff);
-
-	cout << "BUFF WITH ARGS :: " << buff << endl;
-	// FILE *pPipe = popen(buff, "r");
-	// if(pPipe == NULL){
-	//	cout << "[!] PIPE ERROR" << endl;
-	//}
-
-	char buf[512];
-	memset(buf, 0, sizeof(buf));
-	unsigned int i = 0;
 	struct address_handler pAddr;
-
-	//for(i; i<512;i++){
-	//	if(fgets(buf, sizeof(buf), pPipe) != NULL){
-	//		size_t len = strlen(buf);
-	//		if (len > 0 && buf[len-1] == '\n') {
-	//			buf[--len] = '\0';
-	//		}
-	//	}
 	std::string outBuff;
 	while(std::getline(is, outBuff)){
-		cout << "[ " << i << " ] " << outBuff << endl;
+		cout << outBuff << endl;
 		pAddr = CppngrokHandler::UrlBuilder(outBuff);
-		if(pAddr.ext_https != ""){
-			cout << "HTTPS RETURN :: " << pAddr.ext_https << endl;
-		}
-		if(pAddr.ext_http != ""){
-			cout << "HTTP RETURN :: " << pAddr.ext_http << endl;  
-		}
-		if(pAddr.ext_http != "" || pAddr.ext_https != ""){
-			cout << "OK TO GO....." << endl << endl;
+		if(!(pAddr.ext_https.empty()) && !(pAddr.ext_http.empty())){
 			cout << "TRYING TO RETURN :: " << pAddr.ext_http << endl;   
-			break;
+			is.close();
 		}
 		
 	}
-	cout << "EXITED LOOP :: " << pAddr.ext_http;
 	return pAddr;
 }
 
