@@ -21,24 +21,14 @@ enum methods {
 	ngrokhttps = 4,
 };
 
-struct address_handler{
-          string ext_http;
-          string ext_https;
-          string ext_tcp;
-          string ext_tls;
-          string ext_tcp_port;
-          string ext_tls_port;
-          bool stop_trigger = false;
- };
-
 
 
 class CppngrokHandler{
 	public:
 		CppngrokHandler(bool log_opt);
 		int logger(std::string message, int log_level, bool log_handler);
-		address_handler bind();
-		address_handler UrlBuilder(std::string regcheck);
+		void bind();
+		bool UrlBuilder(in std::string regcheck,out char *buff);
 		int bind(int port, methods ngrokmethods);
 };
 
