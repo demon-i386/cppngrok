@@ -8,7 +8,6 @@
 */
 
 using namespace std;
-bool log_handler;
 const char* path;
 
 bool CppngrokHandler::UrlBuilder(in std::string regcheck, out char *buff) { // address_handler alocator, this will alocate address_handler structure with data and return address_handler
