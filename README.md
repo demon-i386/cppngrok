@@ -3,10 +3,12 @@ a cpp wrapper for ngrok
 
 <br/>
 
-##### not implemented yet, read the code!
 ### basic usage
 
 ```cpp
+
+// warning - you are in testing branch, so some things arent complete stable or implemented
+
 #include <iostream>
 #include "cppngrok.h" // or <ccpngrok.h> if instaled cppngrok.h in includes
 
@@ -31,7 +33,6 @@ int main(){
 ```
 
 ### requeriments
-
 ```
 https://ngrok.com/
 ```
@@ -44,7 +45,3 @@ g++ your_project.cpp build/cppngrok_lib.a
 make clean
 ```
 
-#### based in pyngrok
-```
-https://github.com/alexdlaird/pyngrok
-```
