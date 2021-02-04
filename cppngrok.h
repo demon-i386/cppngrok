@@ -15,20 +15,29 @@
 using namespace std;
 
 enum methods {
-	ngroktcp = 1,
-	ngroktls = 2,
-	ngrokhttp = 3,
-	ngrokhttps = 4,
+	tcp,
+	tls,
+	http
 };
 
+// eae celesian, arregaça o cu ai por favor, ai talvez eu fique melhro em c++
 
+static const char *methods_str[] = { "tcp", "tls", "http" };
+
+struct address_handler{
+          string ext_http;
+          string ext_tcp;
+          string ext_tls;
+          unsigned int ext_tcp_port;
+          unsigned int ext_tls_port;
+};
 
 class CppngrokHandler{
 	public:
 		CppngrokHandler(bool log_opt);
 		int logger(std::string message, int log_level, bool log_handler);
-		void bind();
-		bool UrlBuilder(in std::string regcheck,out char *buff);
-		int bind(int port, methods ngrokmethods);
+		address_handler* bind();
+		address_handler* UrlBuilder(std::string regexfood = "NONE");
+		address_handler* bind(methods ngrokmethods, unsigned int port = 1337);
 };
 
