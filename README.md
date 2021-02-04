@@ -1,7 +1,6 @@
 # cppngrok
 a cpp wrapper for ngrok
 
-
 <br/>
 
 ##### not implemented yet, read the code!
