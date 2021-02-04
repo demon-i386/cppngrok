@@ -76,7 +76,7 @@ address_handler *CppngrokHandler::bind(methods ngrokmethod, unsigned int port) {
 			if(!addr_h->ext_http.empty()){
 				cout << "RETURNED HTTP :: " << addr_h->ext_http << endl;
 				is.close();
-				if (s.rdbuf()->exited()){
+				if (is.rdbuf()->exited()){
 					cout << "EXITED" << endl;
 					
 				}
