@@ -20,7 +20,6 @@ enum methods {
 	http
 };
 
-// eae celesian, arregaça o cu ai por favor, ai talvez eu fique melhro em c++
 
 static const char *methods_str[] = { "tcp", "tls", "http" };
 
