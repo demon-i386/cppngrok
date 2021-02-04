@@ -8,15 +8,26 @@ a cpp wrapper for ngrok
 ### basic usage
 
 ```cpp
-#include <cppngrok.h> // or "cppngrok.h" if locally
+#include <iostream>
+#include "cppngrok.h" // or <ccpngrok.h> if instaled cppngrok.h in includes
 
-void main(){
-  CppngrokHandler cppn_handler;
-  cppn_handler.bind() // http tunnel on default port (8080)
-  cppn_handler.bind("tcp", 1337) // tcp tunnel in port 1337
-  
-  // see documentation for full guide
+int main(){
+        CppngrokHandler handler(true); // "true" is a argument for constructor to enable logger, use false to deactivate
+        struct address_handler *recv_addr;
 
+        recv_addr = handler.bind(methods::http, 1337); // binding http for port 1337
+        std::cout << "HTTP ADDRESS :: " << recv_addr->ext_http << endl;
+
+        recv_addr = handler.bind(methods::tcp, 1338); // binding tcp for port 1338
+        std::cout << "TCP ADDRESS :: " << recv_addr->ext_tcp << endl;
+        std::cout << "TCP PORT :: " << recv_addr->ext_tcp_port << endl;
+        
+        recv_addr = handler.bind(method::tcp) // binding tcp for default port (1337)
+        std::cout << "TCP ADDRESS :: " << recv_addr->ext_tcp << endl;
+        std::cout << "TCP PORT :: " << recv_addr->ext_tcp_port << endl;
+        
+        recv_addr = handler.bind() // binding http for port 80
+        std::cout << "HTTP ADDRESS :: " << recv_addr->ext_tcp << endl;
 }
 ```
 
