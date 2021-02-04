@@ -2,7 +2,7 @@
 a cpp wrapper for ngrok
 
 
-<br />
+<br/>
 
 ##### not implemented yet, read the code!
 ### basic usage
@@ -27,7 +27,7 @@ int main(){
         std::cout << "TCP PORT :: " << recv_addr->ext_tcp_port << endl;
         
         recv_addr = handler.bind() // binding http for port 80
-        std::cout << "HTTP ADDRESS :: " << recv_addr->ext_tcp << endl;
+        std::cout << "HTTP ADDRESS :: " << recv_addr->ext_http << endl;
 }
 ```
 
