@@ -1,7 +1,7 @@
 #include "cppngrok.h"
 
 /*
-* AUTHOR : demon-i386 / KB1te
+* AUTHOR : demon-i386
 * LICENSE : GPL v3.0
 * VERSION : 0.1.0
 */
